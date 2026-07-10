@@ -32,6 +32,13 @@ config.tab_bar_style = { new_tab = '', new_tab_hover = '' }  -- hide the stray "
 config.window_close_confirmation = 'NeverPrompt'  -- Ctrl-S x closes without nagging
 
 --------------------------------------------------------------------------------
+-- Performance / input latency (WebGpu felt snappier than OpenGL; 60->144 fps)
+--------------------------------------------------------------------------------
+config.front_end = 'WebGpu'                         -- Dx12 backend; tighter frame pacing than OpenGL on NVIDIA
+config.webgpu_power_preference = 'HighPerformance'  -- prefer the discrete GPU
+config.max_fps = 144                                -- set to your monitor's refresh rate (default is 60)
+
+--------------------------------------------------------------------------------
 -- Leader key = Ctrl-S  (the tmux prefix). ~1s window to press the next key.
 --------------------------------------------------------------------------------
 config.leader = { key = 's', mods = 'CTRL', timeout_milliseconds = 1000 }
