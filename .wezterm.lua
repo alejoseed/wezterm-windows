@@ -44,6 +44,10 @@ config.max_fps = 144                                -- set to your monitor's ref
 config.leader = { key = 's', mods = 'CTRL', timeout_milliseconds = 1000 }
 
 config.keys = {
+  -- Change full screen so that it doesn't conflict with jjui alt enter for descriptions
+  { key = 'Enter', mods = 'ALT',       action = wezterm.action.DisableDefaultAssignment },
+  { key = 'Enter', mods = 'SUPER|ALT', action = wezterm.action.ToggleFullScreen },
+  
   -- Press Ctrl-S twice to send a literal Ctrl-S to the shell
   { key = 's', mods = 'LEADER|CTRL', action = act.SendKey { key = 's', mods = 'CTRL' } },
 
