@@ -16,13 +16,12 @@ config.default_domain = wsl_distro and ('WSL:' .. wsl_distro) or 'local'
 --------------------------------------------------------------------------------
 -- Look & feel
 --------------------------------------------------------------------------------
-config.font = wezterm.font 'JetBrains Mono'   -- ships with WezTerm
+config.font = wezterm.font_with_fallback { 'JetBrains Mono', { family = 'BIZ UDGothic', scale = 1.1 } }
 config.font_size = 11.0
 config.line_height = 1.3                      -- thickens the retro tab bar (also spaces terminal text a bit)
 config.color_scheme = 'Catppuccin Mocha'      -- built in; swap freely
 config.scrollback_lines = 50000               -- native scrollback (mouse wheel just works)
 config.enable_scroll_bar = true
-config.window_decorations = 'RESIZE'          -- thin/no title bar
 config.window_padding = { left = 4, right = 4, top = 4, bottom = 4 }
 config.tab_bar_at_bottom = false              -- bar on top
 config.use_fancy_tab_bar = false              -- retro bar: required for tmux-style powerline segments
@@ -47,7 +46,8 @@ config.keys = {
   -- Change full screen so that it doesn't conflict with jjui alt enter for descriptions
   { key = 'Enter', mods = 'ALT',       action = wezterm.action.DisableDefaultAssignment },
   { key = 'Enter', mods = 'SUPER|ALT', action = wezterm.action.ToggleFullScreen },
-  
+  { key = 'Enter', mods = 'CTRL',      action = act.SendString '\x1b[13;5u' },
+
   -- Press Ctrl-S twice to send a literal Ctrl-S to the shell
   { key = 's', mods = 'LEADER|CTRL', action = act.SendKey { key = 's', mods = 'CTRL' } },
 
@@ -202,7 +202,7 @@ if ok_res then
   table.insert(config.keys, {
     key = 'R', mods = 'LEADER|SHIFT',
     action = wezterm.action_callback(function(win, pane)
-      resurrect.fuzzy_loader.fuzzy_load_state(win, pane, function(id)
+      resurrect.fuzzy_loader.fuzzy_load(win, pane, function(id)
         local kind = string.match(id, '^([^/]+)')
         id = string.match(id, '([^/]+)$')
         id = string.match(id, '(.+)%..+$')
